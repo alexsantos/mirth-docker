@@ -1,4 +1,4 @@
-FROM openjdk:8
+FROM openjdk:8-jre
 
 ENV MIRTH_CONNECT_VERSION 3.6.1.b220
 ENV MIRTH_HOME /opt/Mirth\ Connect
