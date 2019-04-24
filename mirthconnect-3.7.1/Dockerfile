@@ -23,10 +23,12 @@ RUN apt-get update && apt-get install -y --no-install-recommends dirmngr gnupg c
 ADD mirthconnect-$MIRTH_CONNECT_VERSION-unix.tar.gz /opt/
 ADD fhir-$FHIR_VERSION.tar.gz "$MIRTH_HOME"/extensions/
 
-RUN cat "${MIRTH_HOME}"/docs/mcservice-java9+.vmoptions >> "${MIRTH_HOME}"/mcserver.vmoptions \
+RUN echo "-Duser.timezone=UTC\n" >> "${MIRTH_HOME}"/mcserver.vmoptions \
+    && echo "-Duser.timezone=UTC\n" >> "${MIRTH_HOME}"/mcservice.vmoptions \
+	&& cat "${MIRTH_HOME}"/docs/mcservice-java9+.vmoptions >> "${MIRTH_HOME}"/mcserver.vmoptions \
     && cat "${MIRTH_HOME}"/docs/mcservice-java9+.vmoptions >> "${MIRTH_HOME}"/mcservice.vmoptions
 
-RUN chown -R mirth /opt/Mirth\ Connect
+RUN chown -R mirth.mirth /opt/Mirth\ Connect
 
 WORKDIR /opt/Mirth\ Connect
 
