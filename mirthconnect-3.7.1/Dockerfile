@@ -23,8 +23,10 @@ RUN apt-get update && apt-get install -y --no-install-recommends dirmngr gnupg c
 ADD mirthconnect-$MIRTH_CONNECT_VERSION-unix.tar.gz /opt/
 ADD fhir-$FHIR_VERSION.tar.gz "$MIRTH_HOME"/extensions/
 
-RUN echo "-Duser.timezone=UTC\n" >> "${MIRTH_HOME}"/mcserver.vmoptions \
-    && echo "-Duser.timezone=UTC\n" >> "${MIRTH_HOME}"/mcservice.vmoptions \
+RUN sed -i 's/Xmx256m/Xmx512m/g' "${MIRTH_HOME}"/mcserver.vmoptions \
+    && sed -i 's/Xmx256m/Xmx512m/g' "${MIRTH_HOME}"/mcservice.vmoptions \
+	&& echo "-Duser.timezone=UTC" >> "${MIRTH_HOME}"/mcserver.vmoptions \
+    && echo "-Duser.timezone=UTC" >> "${MIRTH_HOME}"/mcservice.vmoptions \
 	&& cat "${MIRTH_HOME}"/docs/mcservice-java9+.vmoptions >> "${MIRTH_HOME}"/mcserver.vmoptions \
     && cat "${MIRTH_HOME}"/docs/mcservice-java9+.vmoptions >> "${MIRTH_HOME}"/mcservice.vmoptions
 
